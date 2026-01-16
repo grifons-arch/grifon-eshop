@@ -12,6 +12,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".WholesaleSwedishStoreActivity" />
+        <activity android:name=".RetailStoresActivity" />
+        <activity android:name=".OrdersActivity" />
     </application>
 
 </manifest>
