@@ -56,6 +56,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun GrifonHomeScreen(viewModel: GrifonTopBarViewModel = viewModel()) {
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -82,8 +84,8 @@ private fun GrifonHomeScreen(viewModel: GrifonTopBarViewModel = viewModel()) {
                     TopBarActions(
                         destinations = viewModel.destinations,
                         onDestinationSelected = { destination ->
-                            val intent = Intent(LocalContext.current, destination.activityClass)
-                            LocalContext.current.startActivity(intent)
+                            val intent = Intent(context, destination.activityClass)
+                            context.startActivity(intent)
                         },
                     )
                 },
