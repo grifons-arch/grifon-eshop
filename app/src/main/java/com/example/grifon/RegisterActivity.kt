@@ -114,7 +114,7 @@ private fun RegisterScreen(
         RegistrationTextField(
             value = state.phone,
             onValueChange = registerViewModel::onPhoneChange,
-            placeholder = "Τηλέφωνο *",
+            placeholder = "Τηλέφωνο",
         )
         RegistrationTextField(
             value = state.iban,

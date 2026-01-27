@@ -2,6 +2,7 @@ package com.example.grifon.presentation.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import android.util.Log
 import com.example.grifon.domain.auth.RegisterOutcome
 import com.example.grifon.domain.auth.RegisterParams
 import com.example.grifon.domain.auth.RegisterUseCase
@@ -91,7 +92,11 @@ class RegisterViewModel(
 
     fun onSubmit() {
         val currentState = _uiState.value
-        if (!currentState.isSubmitEnabled) return
+        Log.d("RegisterViewModel", "Submit clicked. ${validationDebug(currentState)}")
+        if (!currentState.isSubmitEnabled) {
+            Log.w("RegisterViewModel", "Submission blocked. ${validationDebug(currentState)}")
+            return
+        }
 
         _uiState.update { it.copy(status = RegisterStatus.Loading) }
         viewModelScope.launch {
@@ -167,5 +172,24 @@ class RegisterViewModel(
             parts.size == 1 -> parts.first() to ""
             else -> parts.first() to parts.drop(1).joinToString(" ")
         }
+    }
+
+    private fun validationDebug(state: RegisterUiState): String {
+        val missing = buildList {
+            if (state.firstName.isBlank()) add("firstName")
+            if (state.lastName.isBlank()) add("lastName")
+            if (state.country.trim().length != 2) add("countryIso")
+            if (state.city.isBlank()) add("city")
+            if (state.street.isBlank()) add("street")
+            if (state.postalCode.isBlank()) add("postalCode")
+            if (state.email.isBlank()) add("email")
+            if (state.email != state.emailConfirmation) add("emailConfirmation")
+            if (state.password.trim().length < 8) add("passwordLength")
+            if (state.password != state.passwordConfirmation) add("passwordConfirmation")
+            if (!state.customerDataPrivacyAccepted) add("customerDataPrivacyAccepted")
+            if (!state.termsAndPrivacyAccepted) add("termsAndPrivacyAccepted")
+        }
+        return "isSubmitEnabled=${state.isSubmitEnabled} " +
+            "missing=${missing.joinToString()} status=${state.status::class.simpleName}"
     }
 }
