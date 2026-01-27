@@ -91,6 +91,20 @@ export class PrestaShopClient {
           const responseData = axiosError.response.data;
           const parsed =
             typeof responseData === "string" ? parseXmlToJson(responseData) : responseData;
+          const toMessageText = (value: unknown): string | undefined => {
+            if (typeof value === "string") {
+              const trimmed = value.trim();
+              return trimmed.length > 0 ? trimmed : undefined;
+            }
+            if (Array.isArray(value)) {
+              return toMessageText(value[0]);
+            }
+            if (value && typeof value === "object") {
+              const text = (value as { text?: unknown }).text;
+              return toMessageText(text);
+            }
+            return undefined;
+          };
           const normalizedRawMessage =
             typeof responseData === "string"
               ? responseData.replace(/\s+/g, " ").trim().slice(0, 280) || undefined
@@ -99,12 +113,12 @@ export class PrestaShopClient {
             ? `PrestaShop request failed: ${axiosError.response.statusText}`
             : `PrestaShop request failed with status code ${axiosError.response.status}`;
           const message =
-            (parsed as any)?.prestashop?.errors?.error?.message ??
-            (parsed as any)?.prestashop?.errors?.error?.[0]?.message ??
-            (parsed as any)?.prestashop?.errors?.message ??
-            (parsed as any)?.errors?.error?.message ??
-            (parsed as any)?.errors?.[0]?.message ??
-            (parsed as any)?.message ??
+            toMessageText((parsed as any)?.prestashop?.errors?.error?.message) ??
+            toMessageText((parsed as any)?.prestashop?.errors?.error?.[0]?.message) ??
+            toMessageText((parsed as any)?.prestashop?.errors?.message) ??
+            toMessageText((parsed as any)?.errors?.error?.message) ??
+            toMessageText((parsed as any)?.errors?.[0]?.message) ??
+            toMessageText((parsed as any)?.message) ??
             normalizedRawMessage ??
             fallbackMessage;
           throw {
