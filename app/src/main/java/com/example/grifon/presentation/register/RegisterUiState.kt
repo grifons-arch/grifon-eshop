@@ -28,7 +28,6 @@ data class RegisterUiState(
         get() = status !is RegisterStatus.Loading &&
             firstName.isNotBlank() &&
             lastName.isNotBlank() &&
-            phone.isNotBlank() &&
             country.trim().length == 2 &&
             city.isNotBlank() &&
             street.isNotBlank() &&
