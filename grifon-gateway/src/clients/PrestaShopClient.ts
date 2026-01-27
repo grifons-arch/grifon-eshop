@@ -91,10 +91,13 @@ export class PrestaShopClient {
           const responseData = axiosError.response.data;
           const parsed =
             typeof responseData === "string" ? parseXmlToJson(responseData) : responseData;
+          const fallbackMessage = axiosError.response.statusText
+            ? `PrestaShop request failed: ${axiosError.response.statusText}`
+            : `PrestaShop request failed with status code ${axiosError.response.status}`;
           const message =
             (parsed as any)?.prestashop?.errors?.error?.message ??
             (parsed as any)?.prestashop?.errors?.error?.[0]?.message ??
-            axiosError.message;
+            fallbackMessage;
           throw {
             status: axiosError.response.status,
             code: "PRESTASHOP_ERROR",
