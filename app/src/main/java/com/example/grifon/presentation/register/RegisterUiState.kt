@@ -29,13 +29,13 @@ data class RegisterUiState(
             firstName.isNotBlank() &&
             lastName.isNotBlank() &&
             phone.isNotBlank() &&
-            country.isNotBlank() &&
+            country.trim().length == 2 &&
             city.isNotBlank() &&
             street.isNotBlank() &&
             postalCode.isNotBlank() &&
             email.isNotBlank() &&
             email == emailConfirmation &&
-            password.isNotBlank() &&
+            password.trim().length >= 8 &&
             password == passwordConfirmation &&
             customerDataPrivacyAccepted &&
             termsAndPrivacyAccepted

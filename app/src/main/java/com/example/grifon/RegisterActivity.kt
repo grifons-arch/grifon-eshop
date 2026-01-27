@@ -138,7 +138,7 @@ private fun RegisterScreen(
         RegistrationTextField(
             value = state.country,
             onValueChange = registerViewModel::onCountryChange,
-            placeholder = "Χώρα *",
+            placeholder = "Χώρα (ISO, π.χ. GR) *",
         )
         RegistrationTextField(
             value = state.city,
