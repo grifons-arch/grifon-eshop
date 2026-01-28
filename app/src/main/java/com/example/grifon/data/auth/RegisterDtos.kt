@@ -4,8 +4,10 @@ import com.squareup.moshi.Json
 
 data class RegisterRequestDto(
     val email: String,
-    @Json(name = "passwd")
+    @Json(name = "password")
     val password: String,
+    @Json(name = "passwd")
+    val legacyPassword: String = password,
     val socialTitle: String? = null,
     val firstName: String,
     val lastName: String,
@@ -23,7 +25,8 @@ data class RegisterRequestDto(
     val partnerOffers: Boolean? = null,
 ) {
     companion object {
-        const val PASSWORD_JSON_KEY = "passwd"
+        const val PASSWORD_JSON_KEY = "password"
+        const val LEGACY_PASSWORD_JSON_KEY = "passwd"
     }
 }
 
