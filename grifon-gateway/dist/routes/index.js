@@ -32,10 +32,10 @@ exports.apiRouter.get("/v1/shops", (_req, res) => {
 });
 exports.apiRouter.post("/auth/register", registerRateLimiter, (0, validate_1.validateBody)(schemas_1.registerBodySchema), async (req, res, next) => {
     try {
-        const { email, password, socialTitle, firstName, lastName, countryIso, street, city, postalCode, phone, company, vatNumber, iban, customerDataPrivacyAccepted, newsletter, termsAndPrivacyAccepted, partnerOffers } = req.body;
+        const { email, passwd, socialTitle, firstName, lastName, countryIso, street, city, postalCode, phone, company, vatNumber, iban, customerDataPrivacyAccepted, newsletter, termsAndPrivacyAccepted, partnerOffers } = req.body;
         const response = await (0, authService_1.registerCustomer)({
             email,
-            password,
+            passwd,
             socialTitle,
             firstName,
             lastName,

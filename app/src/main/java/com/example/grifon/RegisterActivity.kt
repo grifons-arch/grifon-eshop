@@ -168,16 +168,16 @@ private fun RegisterScreen(
             placeholder = "Επιβεβαίωση Email *",
         )
         RegistrationTextField(
-            value = state.password,
-            onValueChange = registerViewModel::onPasswordChange,
+            value = state.passwd,
+            onValueChange = registerViewModel::onPasswdChange,
             placeholder = "Κωδικός *",
             isPassword = true,
             isPasswordVisible = isPasswordVisible,
             onPasswordVisibilityChange = { isPasswordVisible = !isPasswordVisible },
         )
         RegistrationTextField(
-            value = state.passwordConfirmation,
-            onValueChange = registerViewModel::onPasswordConfirmationChange,
+            value = state.passwdConfirmation,
+            onValueChange = registerViewModel::onPasswdConfirmationChange,
             placeholder = "Επιβεβαίωση Κωδικού *",
             isPassword = true,
             isPasswordVisible = isPasswordConfirmationVisible,

@@ -14,7 +14,7 @@ exports.requestLogger = (0, pino_http_1.default)({
         return id;
     },
     redact: {
-        paths: ["req.headers.authorization", "req.body.password"],
+        paths: ["req.headers.authorization", "req.body.passwd"],
         remove: true
     }
 });

@@ -21,7 +21,7 @@ const buildCustomerPayload = (schema, request, groupIds) => {
         firstname: request.firstName,
         lastname: request.lastName,
         email: request.email,
-        passwd: request.password,
+        passwd: request.passwd,
         active: "0",
         id_default_group: env_1.config.pendingWholesaleGroupId ?? baseCustomer.id_default_group,
         id_shop: env_1.config.defaultShopId,

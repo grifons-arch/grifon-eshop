@@ -14,8 +14,8 @@ data class RegisterUiState(
     val city: String = "",
     val street: String = "",
     val postalCode: String = "",
-    val password: String = "",
-    val passwordConfirmation: String = "",
+    val passwd: String = "",
+    val passwdConfirmation: String = "",
     val customerDataPrivacyAccepted: Boolean = false,
     val newsletterOptIn: Boolean = false,
     val termsAndPrivacyAccepted: Boolean = false,
@@ -34,8 +34,8 @@ data class RegisterUiState(
             postalCode.isNotBlank() &&
             email.isNotBlank() &&
             email == emailConfirmation &&
-            password.trim().length >= 8 &&
-            password == passwordConfirmation &&
+            passwd.trim().length >= 8 &&
+            passwd == passwdConfirmation &&
             customerDataPrivacyAccepted &&
             termsAndPrivacyAccepted
 }

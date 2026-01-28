@@ -15,26 +15,25 @@ class RegisterRepositoryImpl(
     override suspend fun register(params: RegisterParams): RegisterOutcome {
         return try {
             val cleanEmail = params.email.trim()
-            val cleanPassword = params.password.trim()
+            val cleanPasswd = params.passwd.trim()
             Log.d(
                 TAG,
-                    "Register request: email=$cleanEmail, socialTitle=${params.socialTitle}, " +
+                "Register request: email=$cleanEmail, socialTitle=${params.socialTitle}, " +
                     "firstName=${params.firstName}, lastName=${params.lastName}, countryIso=${params.countryIso}, " +
                     "street=${params.street}, city=${params.city}, postalCode=${params.postalCode}, " +
                     "phone=${params.phone}, company=${params.company}, vatNumber=${params.vatNumber}, " +
-                    "iban=${params.iban}, passwordProvided=${cleanPassword.isNotBlank()}, " +
+                    "iban=${params.iban}, passwdProvided=${cleanPasswd.isNotBlank()}, " +
                     "customerDataPrivacyAccepted=${params.customerDataPrivacyAccepted}, " +
                     "newsletter=${params.newsletter}, termsAndPrivacyAccepted=${params.termsAndPrivacyAccepted}, " +
                     "partnerOffers=${params.partnerOffers}",
             )
-            if (cleanEmail.isBlank() || cleanPassword.isBlank()) {
-                Log.w(TAG, "Register request missing email or password.")
+            if (cleanEmail.isBlank() || cleanPasswd.isBlank()) {
+                Log.w(TAG, "Register request missing email or passwd.")
                 return RegisterOutcome.Error("Ελέγξτε το email και τον κωδικό πρόσβασης.")
             }
             val request = RegisterRequestDto(
                 email = cleanEmail,
-                password = cleanPassword,
-                legacyPassword = cleanPassword,
+                passwd = cleanPasswd,
                 socialTitle = params.socialTitle,
                 firstName = params.firstName,
                 lastName = params.lastName,
@@ -53,9 +52,8 @@ class RegisterRepositoryImpl(
             )
             Log.d(
                 TAG,
-                "Register payload: passwordKeys=${RegisterRequestDto.PASSWORD_JSON_KEY}/" +
-                    "${RegisterRequestDto.LEGACY_PASSWORD_JSON_KEY}, " +
-                    "passwordProvided=${cleanPassword.isNotBlank()}",
+                "Register payload: passwdKey=${RegisterRequestDto.PASSWD_JSON_KEY}, " +
+                    "passwdProvided=${cleanPasswd.isNotBlank()}",
             )
             val response = api.register(request)
             Log.d(
