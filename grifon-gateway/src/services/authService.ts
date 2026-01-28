@@ -1,3 +1,4 @@
+import pino, { Logger } from "pino";
 import { PrestaShopClient } from "../clients/PrestaShopClient";
 import { config } from "../config/env";
 import { extractResourceItem, extractResourceList } from "./prestashopParser";
@@ -30,6 +31,7 @@ export interface RegisterResponse {
 }
 
 const PENDING_STATUS = "PENDING_WHOLESALE_APPROVAL";
+const logger = pino({ name: "authService" });
 
 const buildCustomerPayload = (
   schema: unknown,
@@ -172,7 +174,10 @@ const resolveCountryId = async (client: PrestaShopClient, countryIso: string): P
   return Number(countryId);
 };
 
-export const registerCustomer = async (request: RegisterRequest): Promise<RegisterResponse> => {
+export const registerCustomer = async (
+  request: RegisterRequest,
+  log: Logger = logger
+): Promise<RegisterResponse> => {
   const client = new PrestaShopClient({ shopId: config.defaultShopId });
   const email = request.email.trim().toLowerCase();
 
@@ -195,6 +200,18 @@ export const registerCustomer = async (request: RegisterRequest): Promise<Regist
       email
     },
     groupIds
+  );
+  const safePayload = JSON.parse(JSON.stringify(payload));
+  const safeCustomer = (safePayload as any)?.prestashop?.customer;
+  if (safeCustomer?.passwd) {
+    safeCustomer.passwd = "***";
+  }
+  log.info(
+    {
+      payload: safePayload,
+      hasPasswd: Boolean((payload as any)?.prestashop?.customer?.passwd)
+    },
+    "Prestashop customer payload"
   );
   const xmlBody = buildXmlFromJson(payload);
 
