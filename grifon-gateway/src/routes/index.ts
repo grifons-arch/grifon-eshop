@@ -64,25 +64,37 @@ apiRouter.post(
         partnerOffers
       } = req.body as any;
       const normalizedPassword = password ?? passwd;
-      const response = await registerCustomer({
-        email,
-        password: normalizedPassword,
-        socialTitle,
-        firstName,
-        lastName,
-        countryIso,
-        street,
-        city,
-        postalCode,
-        phone,
-        company,
-        vatNumber,
-        iban,
-        customerDataPrivacyAccepted,
-        newsletter,
-        termsAndPrivacyAccepted,
-        partnerOffers
-      });
+      const hasPasswd = Boolean(normalizedPassword);
+      req.log.info({ hasPasswd }, "Register request received");
+      process.stderr.write(
+        `${JSON.stringify({
+          msg: "Register request received",
+          hasPasswd,
+          requestId: req.id
+        })}\n`
+      );
+      const response = await registerCustomer(
+        {
+          email,
+          password: normalizedPassword,
+          socialTitle,
+          firstName,
+          lastName,
+          countryIso,
+          street,
+          city,
+          postalCode,
+          phone,
+          company,
+          vatNumber,
+          iban,
+          customerDataPrivacyAccepted,
+          newsletter,
+          termsAndPrivacyAccepted,
+          partnerOffers
+        },
+        req.log
+      );
       res.status(201).json(response);
     } catch (error) {
       next(error);
