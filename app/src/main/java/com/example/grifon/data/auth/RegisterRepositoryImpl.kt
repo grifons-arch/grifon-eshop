@@ -34,6 +34,7 @@ class RegisterRepositoryImpl(
             val request = RegisterRequestDto(
                 email = cleanEmail,
                 password = cleanPassword,
+                legacyPassword = cleanPassword,
                 socialTitle = params.socialTitle,
                 firstName = params.firstName,
                 lastName = params.lastName,
@@ -52,7 +53,8 @@ class RegisterRepositoryImpl(
             )
             Log.d(
                 TAG,
-                "Register payload: passwordKey=${RegisterRequestDto.PASSWORD_JSON_KEY}, " +
+                "Register payload: passwordKeys=${RegisterRequestDto.PASSWORD_JSON_KEY}/" +
+                    "${RegisterRequestDto.LEGACY_PASSWORD_JSON_KEY}, " +
                     "passwordProvided=${cleanPassword.isNotBlank()}",
             )
             val response = api.register(request)
