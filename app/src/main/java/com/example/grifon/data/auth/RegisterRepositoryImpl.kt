@@ -52,7 +52,8 @@ class RegisterRepositoryImpl(
             )
             Log.d(
                 TAG,
-                "Register payload: passwordKey=${RegisterRequestDto.PASSWORD_JSON_KEY}, " +
+                "Register payload: passwordKeys=${RegisterRequestDto.PASSWORD_JSON_KEY}/" +
+                    "${RegisterRequestDto.LEGACY_PASSWORD_JSON_KEY}, " +
                     "passwordProvided=${cleanPassword.isNotBlank()}",
             )
             val response = api.register(request)
