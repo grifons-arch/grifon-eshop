@@ -21,7 +21,11 @@ data class RegisterRequestDto(
     val newsletter: Boolean = false,
     val termsAndPrivacyAccepted: Boolean = false,
     val partnerOffers: Boolean? = null,
-)
+) {
+    companion object {
+        const val PASSWORD_JSON_KEY = "passwd"
+    }
+}
 
 data class RegisterResponseDto(
     val customerId: String,

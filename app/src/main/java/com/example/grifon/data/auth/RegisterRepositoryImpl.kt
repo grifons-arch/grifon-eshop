@@ -31,27 +31,31 @@ class RegisterRepositoryImpl(
                 Log.w(TAG, "Register request missing email or password.")
                 return RegisterOutcome.Error("Ελέγξτε το email και τον κωδικό πρόσβασης.")
             }
-            val response = api.register(
-                RegisterRequestDto(
-                    email = cleanEmail,
-                    password = cleanPassword,
-                    socialTitle = params.socialTitle,
-                    firstName = params.firstName,
-                    lastName = params.lastName,
-                    countryIso = params.countryIso,
-                    street = params.street,
-                    city = params.city,
-                    postalCode = params.postalCode,
-                    phone = params.phone,
-                    company = params.company,
-                    vatNumber = params.vatNumber,
-                    iban = params.iban,
-                    customerDataPrivacyAccepted = params.customerDataPrivacyAccepted,
-                    newsletter = params.newsletter,
-                    termsAndPrivacyAccepted = params.termsAndPrivacyAccepted,
-                    partnerOffers = params.partnerOffers,
-                ),
+            val request = RegisterRequestDto(
+                email = cleanEmail,
+                password = cleanPassword,
+                socialTitle = params.socialTitle,
+                firstName = params.firstName,
+                lastName = params.lastName,
+                countryIso = params.countryIso,
+                street = params.street,
+                city = params.city,
+                postalCode = params.postalCode,
+                phone = params.phone,
+                company = params.company,
+                vatNumber = params.vatNumber,
+                iban = params.iban,
+                customerDataPrivacyAccepted = params.customerDataPrivacyAccepted,
+                newsletter = params.newsletter,
+                termsAndPrivacyAccepted = params.termsAndPrivacyAccepted,
+                partnerOffers = params.partnerOffers,
             )
+            Log.d(
+                TAG,
+                "Register payload: passwordKey=${RegisterRequestDto.PASSWORD_JSON_KEY}, " +
+                    "passwordProvided=${cleanPassword.isNotBlank()}",
+            )
+            val response = api.register(request)
             Log.d(
                 TAG,
                 "Register response: customerId=${response.customerId}, status=${response.status}, " +
