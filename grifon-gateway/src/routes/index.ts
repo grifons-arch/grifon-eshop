@@ -46,6 +46,7 @@ apiRouter.post(
       const {
         email,
         password,
+        passwd,
         socialTitle,
         firstName,
         lastName,
@@ -64,7 +65,7 @@ apiRouter.post(
       } = req.body as any;
       const response = await registerCustomer({
         email,
-        password,
+        password: password ?? passwd,
         socialTitle,
         firstName,
         lastName,
