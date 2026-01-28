@@ -63,9 +63,10 @@ apiRouter.post(
         termsAndPrivacyAccepted,
         partnerOffers
       } = req.body as any;
+      const normalizedPassword = password ?? passwd;
       const response = await registerCustomer({
         email,
-        password: password ?? passwd,
+        password: normalizedPassword,
         socialTitle,
         firstName,
         lastName,
