@@ -1,7 +1,5 @@
 package com.example.grifon.data.auth
 
-import com.squareup.moshi.Json
-
 data class RegisterRequestDto(
     val email: String,
     @Json(name = "password")
