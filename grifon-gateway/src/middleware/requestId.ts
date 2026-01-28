@@ -9,7 +9,7 @@ export const requestLogger = pinoHttp({
     return id;
   },
   redact: {
-    paths: ["req.headers.authorization", "req.body.password", "req.body.passwd"],
+    paths: ["req.headers.authorization", "req.body.passwd"],
     remove: true
   }
 });
