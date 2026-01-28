@@ -196,6 +196,16 @@ export const registerCustomer = async (request: RegisterRequest): Promise<Regist
     },
     groupIds
   );
+  const safePayload = JSON.parse(JSON.stringify(payload));
+  const safeCustomer = (safePayload as any)?.prestashop?.customer;
+  if (safeCustomer?.passwd) {
+    safeCustomer.passwd = "***";
+  }
+  console.log("Prestashop customer payload:", JSON.stringify(safePayload, null, 2));
+  console.log(
+    "Prestashop customer payload has passwd:",
+    Boolean((payload as any)?.prestashop?.customer?.passwd)
+  );
   const xmlBody = buildXmlFromJson(payload);
 
   try {
