@@ -70,12 +70,12 @@ class RegisterViewModel(
         _uiState.update { it.copy(postalCode = value) }
     }
 
-    fun onPasswordChange(value: String) {
-        _uiState.update { it.copy(password = value) }
+    fun onPasswdChange(value: String) {
+        _uiState.update { it.copy(passwd = value) }
     }
 
-    fun onPasswordConfirmationChange(value: String) {
-        _uiState.update { it.copy(passwordConfirmation = value) }
+    fun onPasswdConfirmationChange(value: String) {
+        _uiState.update { it.copy(passwdConfirmation = value) }
     }
 
     fun onCustomerDataPrivacyAcceptedChange(value: Boolean) {
@@ -103,7 +103,7 @@ class RegisterViewModel(
             val result = registerUseCase(
                 RegisterParams(
                     email = currentState.email.trim(),
-                    password = currentState.password,
+                    passwd = currentState.passwd,
                     socialTitle = currentState.socialTitle.trim().ifBlank { null },
                     firstName = currentState.firstName.trim(),
                     lastName = currentState.lastName.trim(),
@@ -185,8 +185,8 @@ class RegisterViewModel(
             if (state.postalCode.isBlank()) add("postalCode")
             if (state.email.isBlank()) add("email")
             if (state.email != state.emailConfirmation) add("emailConfirmation")
-            if (state.password.trim().length < 8) add("passwordLength")
-            if (state.password != state.passwordConfirmation) add("passwordConfirmation")
+            if (state.passwd.trim().length < 8) add("passwdLength")
+            if (state.passwd != state.passwdConfirmation) add("passwdConfirmation")
             if (!state.customerDataPrivacyAccepted) add("customerDataPrivacyAccepted")
             if (!state.termsAndPrivacyAccepted) add("termsAndPrivacyAccepted")
         }

@@ -44,8 +44,7 @@ export const productIdSchema = z.object({
 export const registerBodySchema = z
   .object({
     email: z.string().trim().email(),
-    password: z.preprocess(toOptionalString, z.string().min(8)).optional(),
-    passwd: z.preprocess(toOptionalString, z.string().min(8)).optional(),
+    passwd: z.preprocess(toOptionalString, z.string().min(8)),
     socialTitle: z.preprocess(toOptionalString, z.enum(["mr", "mrs"]).optional()),
     firstName: z.string().trim().min(1),
     lastName: z.string().trim().min(1),
@@ -61,8 +60,4 @@ export const registerBodySchema = z
     newsletter: z.boolean().optional().default(false),
     termsAndPrivacyAccepted: z.boolean().optional().default(false),
     partnerOffers: z.boolean().optional()
-  })
-  .refine((data) => Boolean(data.password ?? data.passwd), {
-    message: "Password is required",
-    path: ["password"]
   });
