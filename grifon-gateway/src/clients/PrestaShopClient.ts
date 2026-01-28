@@ -89,8 +89,14 @@ export class PrestaShopClient {
         const axiosError = error as AxiosError;
         if (axiosError.response) {
           const responseData = axiosError.response.data;
-          const parsed =
-            typeof responseData === "string" ? parseXmlToJson(responseData) : responseData;
+          let parsed: unknown = responseData;
+          if (typeof responseData === "string") {
+            try {
+              parsed = parseXmlToJson(responseData);
+            } catch {
+              parsed = responseData;
+            }
+          }
           const toMessageText = (value: unknown): string | undefined => {
             if (typeof value === "string") {
               const trimmed = value.trim();
@@ -115,9 +121,13 @@ export class PrestaShopClient {
           const message =
             toMessageText((parsed as any)?.prestashop?.errors?.error?.message) ??
             toMessageText((parsed as any)?.prestashop?.errors?.error?.[0]?.message) ??
+            toMessageText((parsed as any)?.prestashop?.errors?.error?.[0]) ??
+            toMessageText((parsed as any)?.prestashop?.errors?.error) ??
             toMessageText((parsed as any)?.prestashop?.errors?.message) ??
             toMessageText((parsed as any)?.errors?.error?.message) ??
             toMessageText((parsed as any)?.errors?.[0]?.message) ??
+            toMessageText((parsed as any)?.errors?.[0]) ??
+            toMessageText((parsed as any)?.errors?.error) ??
             toMessageText((parsed as any)?.message) ??
             normalizedRawMessage ??
             fallbackMessage;
