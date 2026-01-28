@@ -221,6 +221,13 @@ export const registerCustomer = async (
       hasPasswd
     })}\n`
   );
+  process.stderr.write(
+    `${JSON.stringify({
+      msg: "Prestashop customer payload",
+      payload: safePayload,
+      hasPasswd
+    })}\n`
+  );
   const xmlBody = buildXmlFromJson(payload);
 
   try {

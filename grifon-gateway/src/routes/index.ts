@@ -64,6 +64,15 @@ apiRouter.post(
         partnerOffers
       } = req.body as any;
       const normalizedPassword = password ?? passwd;
+      const hasPasswd = Boolean(normalizedPassword);
+      req.log.info({ hasPasswd }, "Register request received");
+      process.stderr.write(
+        `${JSON.stringify({
+          msg: "Register request received",
+          hasPasswd,
+          requestId: req.id
+        })}\n`
+      );
       const response = await registerCustomer(
         {
           email,
