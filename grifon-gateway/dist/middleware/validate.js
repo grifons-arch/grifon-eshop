@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateBody = exports.validateParams = exports.validateQuery = void 0;
 const validateQuery = (schema) => {
@@ -39,10 +40,11 @@ const validateBody = (schema) => {
     return (req, _res, next) => {
         const result = schema.safeParse(req.body);
         if (!result.success) {
+            const message = ((_a = result.error.issues[0]) === null || _a === void 0 ? void 0 : _a.message) || "Invalid request body";
             next({
                 status: 400,
                 code: "VALIDATION_ERROR",
-                message: "Invalid request body",
+                message,
                 details: result.error.flatten()
             });
             return;
