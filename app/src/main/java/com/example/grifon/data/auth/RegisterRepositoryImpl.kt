@@ -27,8 +27,8 @@ class RegisterRepositoryImpl(
             )
             val response = api.register(
                 RegisterRequestDto(
-                    email = params.email,
-                    password = params.password,
+                    email = params.email.trim(),
+                    password = params.password.trim(),
                     socialTitle = params.socialTitle,
                     firstName = params.firstName,
                     lastName = params.lastName,
