@@ -1,4 +1,4 @@
-import pino from "pino";
+import pino, { Logger } from "pino";
 import { PrestaShopClient } from "../clients/PrestaShopClient";
 import { config } from "../config/env";
 import { extractResourceItem, extractResourceList } from "./prestashopParser";
@@ -174,7 +174,10 @@ const resolveCountryId = async (client: PrestaShopClient, countryIso: string): P
   return Number(countryId);
 };
 
-export const registerCustomer = async (request: RegisterRequest): Promise<RegisterResponse> => {
+export const registerCustomer = async (
+  request: RegisterRequest,
+  log: Logger = logger
+): Promise<RegisterResponse> => {
   const client = new PrestaShopClient({ shopId: config.defaultShopId });
   const email = request.email.trim().toLowerCase();
 
@@ -203,7 +206,7 @@ export const registerCustomer = async (request: RegisterRequest): Promise<Regist
   if (safeCustomer?.passwd) {
     safeCustomer.passwd = "***";
   }
-  logger.info(
+  log.info(
     {
       payload: safePayload,
       hasPasswd: Boolean((payload as any)?.prestashop?.customer?.passwd)
