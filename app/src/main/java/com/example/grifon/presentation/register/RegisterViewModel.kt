@@ -120,6 +120,7 @@ class RegisterViewModel(
                     termsAndPrivacyAccepted = currentState.termsAndPrivacyAccepted,
                 ),
             )
+            Log.d("RegisterViewModel", "Submit result: ${result::class.simpleName}")
             _uiState.update {
                 when (result) {
                     is RegisterOutcome.Success -> it.copy(
