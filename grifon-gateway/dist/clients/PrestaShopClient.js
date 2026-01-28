@@ -11,6 +11,7 @@ class PrestaShopClient {
     constructor(options) {
         this.shopId = options.shopId;
         this.lang = options.lang;
+        const passwd = "";
         const baseURL = options.shopId === env_1.config.defaultShopId && env_1.config.prestashopBaseUrl
             ? env_1.config.prestashopBaseUrl
             : env_1.config.shopBaseUrls[options.shopId];
@@ -19,7 +20,7 @@ class PrestaShopClient {
             timeout: env_1.config.timeoutMs,
             auth: {
                 username: env_1.config.prestashopApiKey,
-                password: ""
+                password: passwd
             }
         });
     }

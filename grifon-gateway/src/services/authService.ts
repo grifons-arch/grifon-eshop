@@ -6,7 +6,7 @@ import { buildXmlFromJson } from "../utils/xml";
 
 export interface RegisterRequest {
   email: string;
-  password: string;
+  passwd: string;
   socialTitle?: "mr" | "mrs";
   firstName: string;
   lastName: string;
@@ -52,7 +52,7 @@ const buildCustomerPayload = (
     firstname: request.firstName,
     lastname: request.lastName,
     email: request.email,
-    passwd: request.password,
+    passwd: request.passwd,
     active: "0",
     id_default_group: config.pendingWholesaleGroupId ?? baseCustomer.id_default_group,
     id_shop: config.defaultShopId,

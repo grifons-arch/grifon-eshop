@@ -40,7 +40,7 @@ exports.productIdSchema = zod_1.z.object({
 });
 exports.registerBodySchema = zod_1.z.object({
     email: zod_1.z.string().trim().email(),
-    password: zod_1.z.string().min(8),
+    passwd: zod_1.z.preprocess(toOptionalString, zod_1.z.string().min(8)),
     socialTitle: zod_1.z.preprocess(toOptionalString, zod_1.z.enum(["mr", "mrs"]).optional()),
     firstName: zod_1.z.string().trim().min(1),
     lastName: zod_1.z.string().trim().min(1),
