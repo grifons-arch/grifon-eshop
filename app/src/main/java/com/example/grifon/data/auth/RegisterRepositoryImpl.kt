@@ -20,7 +20,7 @@ class RegisterRepositoryImpl(
                     "firstName=${params.firstName}, lastName=${params.lastName}, countryIso=${params.countryIso}, " +
                     "street=${params.street}, city=${params.city}, postalCode=${params.postalCode}, " +
                     "phone=${params.phone}, company=${params.company}, vatNumber=${params.vatNumber}, " +
-                    "iban=${params.iban}, " +
+                    "iban=${params.iban}, passwordProvided=${params.password.isNotBlank()}, " +
                     "customerDataPrivacyAccepted=${params.customerDataPrivacyAccepted}, " +
                     "newsletter=${params.newsletter}, termsAndPrivacyAccepted=${params.termsAndPrivacyAccepted}, " +
                     "partnerOffers=${params.partnerOffers}",
