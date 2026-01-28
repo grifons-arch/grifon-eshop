@@ -206,12 +206,20 @@ export const registerCustomer = async (
   if (safeCustomer?.passwd) {
     safeCustomer.passwd = "***";
   }
+  const hasPasswd = Boolean((payload as any)?.prestashop?.customer?.passwd);
   log.info(
     {
       payload: safePayload,
-      hasPasswd: Boolean((payload as any)?.prestashop?.customer?.passwd)
+      hasPasswd
     },
     "Prestashop customer payload"
+  );
+  process.stdout.write(
+    `${JSON.stringify({
+      msg: "Prestashop customer payload",
+      payload: safePayload,
+      hasPasswd
+    })}\n`
   );
   const xmlBody = buildXmlFromJson(payload);
 
