@@ -46,6 +46,11 @@ class RegisterRepositoryImpl(
                     partnerOffers = params.partnerOffers,
                 ),
             )
+            Log.d(
+                TAG,
+                "Register response: customerId=${response.customerId}, status=${response.status}, " +
+                    "message=${response.message}",
+            )
             RegisterOutcome.Success(
                 RegisterResult(
                     customerId = response.customerId,
