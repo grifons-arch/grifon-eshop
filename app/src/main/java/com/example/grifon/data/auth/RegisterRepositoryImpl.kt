@@ -14,21 +14,27 @@ class RegisterRepositoryImpl(
 ) : RegisterRepository {
     override suspend fun register(params: RegisterParams): RegisterOutcome {
         return try {
+            val cleanEmail = params.email.trim()
+            val cleanPassword = params.password.trim()
             Log.d(
                 TAG,
-                    "Register request: email=${params.email}, socialTitle=${params.socialTitle}, " +
+                    "Register request: email=$cleanEmail, socialTitle=${params.socialTitle}, " +
                     "firstName=${params.firstName}, lastName=${params.lastName}, countryIso=${params.countryIso}, " +
                     "street=${params.street}, city=${params.city}, postalCode=${params.postalCode}, " +
                     "phone=${params.phone}, company=${params.company}, vatNumber=${params.vatNumber}, " +
-                    "iban=${params.iban}, passwordProvided=${params.password.isNotBlank()}, " +
+                    "iban=${params.iban}, passwordProvided=${cleanPassword.isNotBlank()}, " +
                     "customerDataPrivacyAccepted=${params.customerDataPrivacyAccepted}, " +
                     "newsletter=${params.newsletter}, termsAndPrivacyAccepted=${params.termsAndPrivacyAccepted}, " +
                     "partnerOffers=${params.partnerOffers}",
             )
+            if (cleanEmail.isBlank() || cleanPassword.isBlank()) {
+                Log.w(TAG, "Register request missing email or password.")
+                return RegisterOutcome.Error("Ελέγξτε το email και τον κωδικό πρόσβασης.")
+            }
             val response = api.register(
                 RegisterRequestDto(
-                    email = params.email.trim(),
-                    password = params.password.trim(),
+                    email = cleanEmail,
+                    password = cleanPassword,
                     socialTitle = params.socialTitle,
                     firstName = params.firstName,
                     lastName = params.lastName,

@@ -2,6 +2,7 @@ package com.example.grifon.data.auth
 
 data class RegisterRequestDto(
     val email: String,
+    @Json(name = "password")
     val password: String,
     val socialTitle: String? = null,
     val firstName: String,
