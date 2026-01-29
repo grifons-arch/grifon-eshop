@@ -138,7 +138,7 @@ const registerCustomer = async (request) => {
         throw {
             status: 400,
             code: "VALIDATION_ERROR",
-            message: "Parameter passwd is required"
+            message: "Parameter passwd is requiered"
         };
     }
     const exists = await findCustomerByEmail(client, email);

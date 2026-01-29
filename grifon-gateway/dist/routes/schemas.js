@@ -61,7 +61,7 @@ exports.registerBodySchema = zod_1.z.object({
     if (!data.passwd && !data.password) {
         ctx.addIssue({
             code: zod_1.z.ZodIssueCode.custom,
-            message: "Password is required",
+            message: "Parameter passwd is requiered",
             path: ["passwd"]
         });
     }

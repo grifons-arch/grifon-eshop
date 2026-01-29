@@ -66,7 +66,7 @@ export const registerBodySchema = z
     if (!data.passwd && !data.password) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Password is required",
+        message: "Parameter passwd is requiered",
         path: ["passwd"]
       });
     }

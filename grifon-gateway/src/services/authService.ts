@@ -187,7 +187,7 @@ export const registerCustomer = async (
     throw {
       status: 400,
       code: "VALIDATION_ERROR",
-      message: "Parameter passwd is required"
+      message: "Parameter passwd is requiered"
     };
   }
 
