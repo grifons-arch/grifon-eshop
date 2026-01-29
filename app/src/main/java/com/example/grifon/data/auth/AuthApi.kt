@@ -5,5 +5,5 @@ import retrofit2.http.POST
 
 interface AuthApi {
     @POST("auth/register")
-    suspend fun register(@Body request: RegisterRequestDto): RegisterResponseDto
+    suspend fun register(@Body request: Map<String, @JvmSuppressWildcards Any>): RegisterResponseDto
 }
