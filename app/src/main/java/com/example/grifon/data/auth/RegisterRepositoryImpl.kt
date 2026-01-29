@@ -52,7 +52,7 @@ class RegisterRepositoryImpl(
             params.iban?.let { jsonPayload.put("iban", it) }
             params.partnerOffers?.let { jsonPayload.put("partnerOffers", it) }
             val request = jsonPayload.toString()
-                .toRequestBody("application/json".toMediaType())
+                .toRequestBody("application/json; charset=utf-8".toMediaType())
             Log.d(
                 TAG,
                 "Register payload: passwdKey=passwd, passwdProvided=${cleanPasswd.isNotBlank()}",
