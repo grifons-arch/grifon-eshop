@@ -8,6 +8,8 @@ data class RegisterUiState(
     val iban: String = "",
     val email: String = "",
     val emailConfirmation: String = "",
+    val password: String = "",
+    val passwordConfirmation: String = "",
     val companyName: String = "",
     val vatNumber: String = "",
     val country: String = "",
@@ -34,8 +36,17 @@ data class RegisterUiState(
             postalCode.isNotBlank() &&
             email.isNotBlank() &&
             email == emailConfirmation &&
+
             passwd.trim().length >= 8 &&
             passwd == passwdConfirmation &&
+
+
+            password.trim().length >= 8 &&
+            password == passwordConfirmation &&
+
+            passwd.trim().length >= 8 &&
+            passwd == passwdConfirmation &&
+
             customerDataPrivacyAccepted &&
             termsAndPrivacyAccepted
 }
