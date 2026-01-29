@@ -180,6 +180,14 @@ export const registerCustomer = async (
 ): Promise<RegisterResponse> => {
   const client = new PrestaShopClient({ shopId: config.defaultShopId });
   const email = request.email.trim().toLowerCase();
+  const passwd = request.passwd?.trim();
+  if (!passwd) {
+    throw {
+      status: 400,
+      code: "VALIDATION_ERROR",
+      message: "Parameter passwd is required"
+    };
+  }
 
   const exists = await findCustomerByEmail(client, email);
   if (exists) {
@@ -197,7 +205,8 @@ export const registerCustomer = async (
     schema,
     {
       ...request,
-      email
+      email,
+      passwd
     },
     groupIds
   );

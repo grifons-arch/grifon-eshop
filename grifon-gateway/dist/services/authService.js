@@ -133,6 +133,14 @@ const resolveCountryId = async (client, countryIso) => {
 const registerCustomer = async (request) => {
     const client = new PrestaShopClient_1.PrestaShopClient({ shopId: env_1.config.defaultShopId });
     const email = request.email.trim().toLowerCase();
+    const passwd = request.passwd?.trim();
+    if (!passwd) {
+        throw {
+            status: 400,
+            code: "VALIDATION_ERROR",
+            message: "Parameter passwd is required"
+        };
+    }
     const exists = await findCustomerByEmail(client, email);
     if (exists) {
         throw {
@@ -146,7 +154,8 @@ const registerCustomer = async (request) => {
     const groupIds = resolveGroupIds(request.countryIso);
     const payload = buildCustomerPayload(schema, {
         ...request,
-        email
+        email,
+        passwd
     }, groupIds);
     const xmlBody = (0, xml_1.buildXmlFromJson)(payload);
     try {
