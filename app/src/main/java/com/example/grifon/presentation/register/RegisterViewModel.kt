@@ -94,7 +94,15 @@ class RegisterViewModel(
         val currentState = _uiState.value
         Log.d("RegisterViewModel", "Submit clicked. ${validationDebug(currentState)}")
         if (!currentState.isSubmitEnabled) {
-            Log.w("RegisterViewModel", "Submission blocked. ${validationDebug(currentState)}")
+            val validationMessage = validationErrorMessage(currentState)
+            Log.w(
+                "RegisterViewModel",
+                "Submission blocked. ${validationDebug(currentState)} " +
+                    "message=$validationMessage",
+            )
+            _uiState.update {
+                it.copy(status = RegisterStatus.Error(validationMessage))
+            }
             return
         }
 
@@ -192,5 +200,27 @@ class RegisterViewModel(
         }
         return "isSubmitEnabled=${state.isSubmitEnabled} " +
             "missing=${missing.joinToString()} status=${state.status::class.simpleName}"
+    }
+
+    private fun validationErrorMessage(state: RegisterUiState): String {
+        val missing = buildList {
+            if (state.firstName.isBlank()) add("Όνομα")
+            if (state.lastName.isBlank()) add("Επώνυμο")
+            if (state.country.trim().length != 2) add("Χώρα (ISO)")
+            if (state.city.isBlank()) add("Πόλη")
+            if (state.street.isBlank()) add("Οδός και Αριθμός")
+            if (state.postalCode.isBlank()) add("Τ.Κ")
+            if (state.email.isBlank()) add("Email")
+            if (state.email != state.emailConfirmation) add("Επιβεβαίωση Email")
+            if (state.passwd.trim().length < 8) add("Κωδικός (τουλάχιστον 8 χαρακτήρες)")
+            if (state.passwd != state.passwdConfirmation) add("Επιβεβαίωση Κωδικού")
+            if (!state.customerDataPrivacyAccepted) add("Προστασία δεδομένων πελάτη")
+            if (!state.termsAndPrivacyAccepted) add("Όρους και πολιτική απορρήτου")
+        }
+        return if (missing.isEmpty()) {
+            "Δεν είναι δυνατή η αποθήκευση. Ελέγξτε τα στοιχεία σας."
+        } else {
+            "Συμπληρώστε τα υποχρεωτικά πεδία: ${missing.joinToString()}."
+        }
     }
 }
