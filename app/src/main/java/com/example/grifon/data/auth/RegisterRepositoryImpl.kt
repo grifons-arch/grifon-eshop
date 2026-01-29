@@ -31,6 +31,10 @@ class RegisterRepositoryImpl(
                 Log.w(TAG, "Register request missing email or passwd.")
                 return RegisterOutcome.Error("Ελέγξτε το email και τον κωδικό πρόσβασης.")
             }
+            if (cleanPasswd.length < 8) {
+                Log.w(TAG, "Register request rejected: passwd length < 8.")
+                return RegisterOutcome.Error("Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες.")
+            }
             val request = RegisterRequestDto(
                 email = cleanEmail,
                 passwd = cleanPasswd,
