@@ -213,7 +213,7 @@ private fun RegisterScreen(
 
         Button(
             onClick = registerViewModel::onSubmit,
-            enabled = state.isSubmitEnabled,
+            enabled = state.status !is RegisterStatus.Loading,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 8.dp),
