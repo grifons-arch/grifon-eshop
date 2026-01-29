@@ -5,6 +5,8 @@ import com.example.grifon.domain.auth.RegisterOutcome
 import com.example.grifon.domain.auth.RegisterParams
 import com.example.grifon.domain.auth.RegisterRepository
 import com.example.grifon.domain.auth.RegisterResult
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.HttpException
 import java.io.IOException
 import org.json.JSONObject
@@ -31,29 +33,29 @@ class RegisterRepositoryImpl(
                 Log.w(TAG, "Register request missing email or passwd.")
                 return RegisterOutcome.Error("Ελέγξτε το email και τον κωδικό πρόσβασης.")
             }
-            val request = RegisterRequestDto(
-                email = cleanEmail,
-                passwd = cleanPasswd,
-                socialTitle = params.socialTitle,
-                firstName = params.firstName,
-                lastName = params.lastName,
-                countryIso = params.countryIso,
-                street = params.street,
-                city = params.city,
-                postalCode = params.postalCode,
-                phone = params.phone,
-                company = params.company,
-                vatNumber = params.vatNumber,
-                iban = params.iban,
-                customerDataPrivacyAccepted = params.customerDataPrivacyAccepted,
-                newsletter = params.newsletter,
-                termsAndPrivacyAccepted = params.termsAndPrivacyAccepted,
-                partnerOffers = params.partnerOffers,
-            )
+            val jsonPayload = JSONObject()
+                .put("email", cleanEmail)
+                .put("passwd", cleanPasswd)
+                .put("firstName", params.firstName)
+                .put("lastName", params.lastName)
+                .put("countryIso", params.countryIso)
+                .put("street", params.street)
+                .put("city", params.city)
+                .put("postalCode", params.postalCode)
+                .put("customerDataPrivacyAccepted", params.customerDataPrivacyAccepted)
+                .put("newsletter", params.newsletter)
+                .put("termsAndPrivacyAccepted", params.termsAndPrivacyAccepted)
+            params.socialTitle?.let { jsonPayload.put("socialTitle", it) }
+            params.phone?.let { jsonPayload.put("phone", it) }
+            params.company?.let { jsonPayload.put("company", it) }
+            params.vatNumber?.let { jsonPayload.put("vatNumber", it) }
+            params.iban?.let { jsonPayload.put("iban", it) }
+            params.partnerOffers?.let { jsonPayload.put("partnerOffers", it) }
+            val request = jsonPayload.toString()
+                .toRequestBody("application/json".toMediaType())
             Log.d(
                 TAG,
-                "Register payload: passwdKey=${RegisterRequestDto.PASSWD_JSON_KEY}, " +
-                    "passwdProvided=${cleanPasswd.isNotBlank()}",
+                "Register payload: passwdKey=passwd, passwdProvided=${cleanPasswd.isNotBlank()}",
             )
             val response = api.register(request)
             Log.d(
