@@ -30,7 +30,16 @@ exports.apiRouter.get("/health", (_req, res) => {
 exports.apiRouter.get("/v1/shops", (_req, res) => {
     res.json(env_1.shops);
 });
-exports.apiRouter.post("/auth/register", registerRateLimiter, (0, validate_1.validateBody)(schemas_1.registerBodySchema), async (req, res, next) => {
+exports.apiRouter.post("/auth/register", registerRateLimiter, (req, _res, next) => {
+    if (req.body && typeof req.body === "object") {
+        const body = req.body;
+        if (typeof body.password === "string" && body.passwd === undefined) {
+            body.passwd = body.password;
+            delete body.password;
+        }
+    }
+    next();
+}, (0, validate_1.validateBody)(schemas_1.registerBodySchema), async (req, res, next) => {
     try {
         const { email, passwd, password, socialTitle, firstName, lastName, countryIso, street, city, postalCode, phone, company, vatNumber, iban, customerDataPrivacyAccepted, newsletter, termsAndPrivacyAccepted, partnerOffers } = req.body;
         const resolvedPasswd = passwd ?? password;

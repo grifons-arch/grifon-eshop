@@ -40,6 +40,16 @@ apiRouter.get("/v1/shops", (_req, res) => {
 apiRouter.post(
   "/auth/register",
   registerRateLimiter,
+  (req, _res, next) => {
+    if (req.body && typeof req.body === "object") {
+      const body = req.body as Record<string, unknown>;
+      if (typeof body.password === "string" && body.passwd === undefined) {
+        body.passwd = body.password;
+        delete body.password;
+      }
+    }
+    next();
+  },
   validateBody(registerBodySchema),
   async (req, res, next) => {
     try {
