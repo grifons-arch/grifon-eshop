@@ -46,6 +46,7 @@ apiRouter.post(
       const {
         email,
         passwd,
+        password,
         socialTitle,
         firstName,
         lastName,
@@ -62,7 +63,8 @@ apiRouter.post(
         termsAndPrivacyAccepted,
         partnerOffers
       } = req.body as any;
-      const hasPasswd = Boolean(passwd);
+      const resolvedPasswd = passwd ?? password;
+      const hasPasswd = Boolean(resolvedPasswd);
       req.log.info({ hasPasswd }, "Register request received");
       process.stderr.write(
         `${JSON.stringify({
@@ -74,7 +76,7 @@ apiRouter.post(
       const response = await registerCustomer(
         {
           email,
-          passwd,
+          passwd: resolvedPasswd,
           socialTitle,
           firstName,
           lastName,
