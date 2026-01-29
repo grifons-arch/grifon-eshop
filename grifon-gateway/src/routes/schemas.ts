@@ -44,7 +44,8 @@ export const productIdSchema = z.object({
 export const registerBodySchema = z
   .object({
     email: z.string().trim().email(),
-    passwd: z.preprocess(toOptionalString, z.string().min(8)),
+    passwd: z.preprocess(toOptionalString, z.string().min(8).optional()),
+    password: z.preprocess(toOptionalString, z.string().min(8).optional()),
     socialTitle: z.preprocess(toOptionalString, z.enum(["mr", "mrs"]).optional()),
     firstName: z.string().trim().min(1),
     lastName: z.string().trim().min(1),
@@ -60,4 +61,13 @@ export const registerBodySchema = z
     newsletter: z.boolean().optional().default(false),
     termsAndPrivacyAccepted: z.boolean().optional().default(false),
     partnerOffers: z.boolean().optional()
+  })
+  .superRefine((data, ctx) => {
+    if (!data.passwd && !data.password) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Password is required",
+        path: ["passwd"]
+      });
+    }
   });
