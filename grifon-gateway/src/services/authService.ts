@@ -271,6 +271,14 @@ export const registerCustomer = async (
       message: "Η αίτηση καταχωρήθηκε και βρίσκεται σε αναμονή έγκρισης."
     };
   } catch (error: any) {
+    log.warn(
+      {
+        status: error?.status,
+        code: error?.code,
+        message: error?.message
+      },
+      "Prestashop customer creation failed"
+    );
     const message = String(error?.message ?? "Prestashop error");
     if (message.toLowerCase().includes("email") && message.toLowerCase().includes("exists")) {
       throw {
