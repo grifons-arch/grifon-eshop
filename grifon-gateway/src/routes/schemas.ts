@@ -45,7 +45,6 @@ export const registerBodySchema = z
   .object({
     email: z.string().trim().email(),
     passwd: z.preprocess(toOptionalString, z.string().min(8).optional()),
-    password: z.preprocess(toOptionalString, z.string().min(8).optional()),
     socialTitle: z.preprocess(toOptionalString, z.enum(["mr", "mrs"]).optional()),
     firstName: z.string().trim().min(1),
     lastName: z.string().trim().min(1),
@@ -63,7 +62,7 @@ export const registerBodySchema = z
     partnerOffers: z.boolean().optional()
   })
   .superRefine((data, ctx) => {
-    if (!data.passwd && !data.password) {
+    if (!data.passwd) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Password is required",
