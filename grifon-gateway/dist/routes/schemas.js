@@ -40,7 +40,8 @@ exports.productIdSchema = zod_1.z.object({
 });
 exports.registerBodySchema = zod_1.z.object({
     email: zod_1.z.string().trim().email(),
-    passwd: zod_1.z.preprocess(toOptionalString, zod_1.z.string().min(8)),
+    passwd: zod_1.z.preprocess(toOptionalString, zod_1.z.string().min(8).optional()),
+    password: zod_1.z.preprocess(toOptionalString, zod_1.z.string().min(8).optional()),
     socialTitle: zod_1.z.preprocess(toOptionalString, zod_1.z.enum(["mr", "mrs"]).optional()),
     firstName: zod_1.z.string().trim().min(1),
     lastName: zod_1.z.string().trim().min(1),
@@ -56,4 +57,12 @@ exports.registerBodySchema = zod_1.z.object({
     newsletter: zod_1.z.boolean().optional().default(false),
     termsAndPrivacyAccepted: zod_1.z.boolean().optional().default(false),
     partnerOffers: zod_1.z.boolean().optional()
+}).superRefine((data, ctx) => {
+    if (!data.passwd && !data.password) {
+        ctx.addIssue({
+            code: zod_1.z.ZodIssueCode.custom,
+            message: "Password is required",
+            path: ["passwd"]
+        });
+    }
 });
