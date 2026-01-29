@@ -52,7 +52,9 @@ const buildCustomerPayload = (
     firstname: request.firstName,
     lastname: request.lastName,
     email: request.email,
-    passwd: request.passwd,
+    passwd: {
+      text: request.passwd
+    },
     active: "0",
     id_default_group: config.pendingWholesaleGroupId ?? baseCustomer.id_default_group,
     id_shop: config.defaultShopId,
@@ -213,7 +215,11 @@ export const registerCustomer = async (
   const safePayload = JSON.parse(JSON.stringify(payload));
   const safeCustomer = (safePayload as any)?.prestashop?.customer;
   if (safeCustomer?.passwd) {
-    safeCustomer.passwd = "***";
+    if (typeof safeCustomer.passwd === "object") {
+      safeCustomer.passwd = { text: "***" };
+    } else {
+      safeCustomer.passwd = "***";
+    }
   }
   const hasPasswd = Boolean((payload as any)?.prestashop?.customer?.passwd);
   log.info(
