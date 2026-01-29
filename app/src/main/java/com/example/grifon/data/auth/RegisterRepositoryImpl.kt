@@ -37,7 +37,7 @@ class RegisterRepositoryImpl(
             }
             val request = RegisterRequestDto(
                 email = cleanEmail,
-                password = cleanPasswd,
+                passwd = cleanPasswd,
                 socialTitle = params.socialTitle,
                 firstName = params.firstName,
                 lastName = params.lastName,
