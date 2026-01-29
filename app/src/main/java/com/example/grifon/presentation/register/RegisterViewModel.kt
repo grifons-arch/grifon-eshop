@@ -218,7 +218,7 @@ class RegisterViewModel(
             if (!state.termsAndPrivacyAccepted) add("Όρους και πολιτική απορρήτου")
         }
         return if (missing.isEmpty()) {
-            "Δεν είναι δυνατή η αποθήκευση. Ελέγξτε τα στοιχεία σας."
+            "Δεν ήταν δυνατή η αποθήκευση. Ελέγξτε τα στοιχεία σας."
         } else {
             "Συμπληρώστε τα υποχρεωτικά πεδία: ${missing.joinToString()}."
         }
