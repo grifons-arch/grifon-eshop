@@ -171,4 +171,5 @@ dependencies {
     implementation(libs.androidx.camera.view)
     implementation(libs.mlkit.barcode.scanning)
     implementation(libs.google.play.services.auth)
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
 }
